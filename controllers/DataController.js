@@ -122,6 +122,7 @@ exports.sortUsersByName = (req, res) => {
                     return a.name.localeCompare(b.name);
                 }
                 else if (order.toLowerCase() === 'desc') return b.name.localeCompare(a.name);
+                else return [];
             })
             return res.status(200).send(sortedUsers);
         }
@@ -130,6 +131,37 @@ exports.sortUsersByName = (req, res) => {
             message: response.message
         })
 
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: 'Server error.',
+            error: err.message
+        })
+    }
+}
+
+// Sort users by version number
+exports.sortUsersByVersion = (req, res) => {
+    try {
+        
+        const { order } = req.params;
+        const response = fetchData();
+        const fetchedUsers = response.data;
+
+        // Sort users by version in order
+        if (response.success){
+            const sortedUsers = fetchedUsers.sort((a, b) => {
+                if (order.toLowerCase() == 'asc') return a.version - b.version;
+                else if (order.toLowerCase() == 'desc') return b.version - a.version;
+                else return [];
+            })
+            return res.status(200).send(sortedUsers);
+        }
+        return res.status(500).send({
+            success: false,
+            message: response.message
+        })
+        
     } catch (err) {
         return res.status(500).json({
             success: false,

@@ -18,4 +18,7 @@ router.get('/filter/language/:language', DataControllers.fetchUsersByLanguage);
 // Sort users by name
 router.get('/sort/name/:order', DataControllers.sortUsersByName);
 
+// Sort users by version
+router.get('/sort/version/:order', DataControllers.sortUsersByVersion);
+
 module.exports = router;
