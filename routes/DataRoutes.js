@@ -13,6 +13,9 @@ router.get('/:id', DataControllers.getUserById);
 router.get('/search/:name', DataControllers.searchUsersByName);
 
 // Fetch all users for a specific language
-// router.get('/')
+router.get('/filter/language/:language', DataControllers.fetchUsersByLanguage);
+
+// Sort users by name
+router.get('/sort/name/:order')
 
 module.exports = router;

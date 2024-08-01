@@ -84,15 +84,20 @@ exports.searchUsersByName = (req, res) => {
 exports.fetchUsersByLanguage = (req, res) => {
     try {
         
-        const { language } = req.query.query;   
+        const { language } = req.params;   
         const response = fetchData();
         const fetchedUsers = response.data;
 
         // Filter users based on language
         if (response.success){
-
+            const filteredUsers = fetchedUsers.filter((user) => user.language.toLowerCase() === language.toLowerCase());
+            return res.status(200).send(filteredUsers);
         }
 
+        return res.status(500).send({
+            success: false,
+            message: response.message
+        })
     } catch (err) {
         return res.status(500).json({
             success: false,
@@ -101,3 +106,5 @@ exports.fetchUsersByLanguage = (req, res) => {
         })
     }
 }
+
+// Sort 
