@@ -161,7 +161,94 @@ exports.sortUsersByVersion = (req, res) => {
             success: false,
             message: response.message
         })
+
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: 'Server error.',
+            error: err.message
+        })
+    }
+}
+
+// Fetch all users having a specific keyword in their bio
+exports.getAllUsersByBioKeyword = async (req, res) => {
+    try {
         
+        const { keyword } = req.params;
+        const response = fetchData();
+        const fetchedUsers = response.data;
+
+        // Filter users based on the keyword
+        if (response.success){
+            const filteredUsers = fetchedUsers.filter((user) => user.bio.toLowerCase().includes(keyword.toLowerCase()));
+            return res.status(200).send(filteredUsers);
+        }
+        return res.status(500).send({
+            success: false,
+            message: response.message
+        })
+
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: 'Server error.',
+            error: err.message
+        })
+    }
+}
+
+// Fetch all users within a version range
+exports.getAllUsersByVersionRange = async (req, res) => {
+    try {
+        
+        const { min, max } = req.params;
+        const response = fetchData();
+        const fetchedUsers = response.data;
+
+        // Filter users within a version range and sort in order
+        if (response.success){
+            const filteredUsers = fetchedUsers.filter((user) => user.version >= min && user.version <= max);
+            return res.status(200).send(filteredUsers);
+        }
+
+        return res.status(500).send({
+            success: false,
+            message: response.message
+        })
+
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: 'Server error.',
+            error: err.message
+        })
+    }
+}
+
+// Fetch all users within a version range and sort in order
+exports.getAllUsersByVersionRangeSortedByVersion = async (req, res) => {
+    try {
+        
+        const { min, max } = req.params;
+        const response = fetchData();
+        const fetchedUsers = response.data;
+
+        // Filter users within a version range and sort in order
+        if (response.success){
+            const filteredUsers = fetchedUsers.filter((user) => user.version >= min && user.version <= max).sort((a, b) => {
+                if (order.toLowerCase() == 'asc'){
+                    return a.
+                }
+            })
+            return res.status(200).send(filteredUsers);
+        }
+
+        return res.status(500).send({
+            success: false,
+            message: response.message
+        })
+
     } catch (err) {
         return res.status(500).json({
             success: false,

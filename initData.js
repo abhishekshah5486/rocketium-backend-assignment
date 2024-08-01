@@ -22,5 +22,4 @@ const initData = async () => {
         console.log(err.message);
     }
 }
-
 initData();
