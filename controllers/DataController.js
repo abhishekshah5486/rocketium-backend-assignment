@@ -230,7 +230,7 @@ exports.getAllUsersByVersionRange = async (req, res) => {
 exports.getAllUsersByVersionRangeSortedByVersion = async (req, res) => {
     try {
         
-        const { min, max } = req.params;
+        const { min, max, order } = req.params;
         const response = fetchData();
         const fetchedUsers = response.data;
 
@@ -238,8 +238,10 @@ exports.getAllUsersByVersionRangeSortedByVersion = async (req, res) => {
         if (response.success){
             const filteredUsers = fetchedUsers.filter((user) => user.version >= min && user.version <= max).sort((a, b) => {
                 if (order.toLowerCase() == 'asc'){
-                    return a.
+                    return a.version - b.version;
                 }
+                else if (order.toLowerCase() == 'desc') return b.version - a.version;
+                else return [];
             })
             return res.status(200).send(filteredUsers);
         }
@@ -255,5 +257,15 @@ exports.getAllUsersByVersionRangeSortedByVersion = async (req, res) => {
             message: 'Server error.',
             error: err.message
         })
+    }
+}
+
+// Retrieve all users with the highest version number
+exports.getLatestUsersByVersion = async (req, res) => {
+    try {
+        
+        const 
+    } catch (err) {
+        
     }
 }

@@ -30,5 +30,8 @@ router.get('/version/range/:min/:max', DataControllers.getAllUsersByVersionRange
 // Fetch all users within a version range and sort in order
 router.get('/version/range/:min/:max/sort/:order', DataControllers.getAllUsersByVersionRangeSortedByVersion);
 
+// Retrieve all latest users with the highest version number
+router.get('/latest/:limit', DataControllers.getLatestUsersByVersion);
+
 
 module.exports = router;
