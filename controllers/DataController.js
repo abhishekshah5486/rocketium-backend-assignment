@@ -329,7 +329,14 @@ exports.getAllUsersByNameStartingWithSortedByNameInOrder = async (req, res) => {
         // Filter users based on the query
         if (response.success){
             const filteredUsers = fetchedUsers.filter((user) => user.name.toLowerCase().startsWith(keyword.toLowerCase()));
-            res.status(200).send(filteredUsers);
+            const sortedUsers = filteredUsers.sort((a, b) => {
+                if (order.toLowerCase() === 'asc'){
+                    return a.name.localeCompare(b.name);
+                }
+                else if (order.toLowerCase() === 'desc') return b.name.localeCompare(a.name);
+                else return [];
+            })
+            res.status(200).send(sortedUsers);
         }
 
         return res.status(500).send({
