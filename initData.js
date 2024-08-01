@@ -3,7 +3,7 @@ const path = require('path');
 const dataPath = path.join(__dirname, './data/data.json');
 const fs = require('fs');
 
-const initData = async (responseData) => {
+const initData = async () => {
     const saveData = (responseData) => {
         const jsonData = JSON.stringify(responseData, null, 2);
         try {
