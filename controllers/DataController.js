@@ -264,8 +264,84 @@ exports.getAllUsersByVersionRangeSortedByVersion = async (req, res) => {
 exports.getLatestUsersByVersion = async (req, res) => {
     try {
         
-        const 
+        const { limit } = req.params;
+        const response = fetchData();
+        const fetchedUsers = response.data;
+
+        if (response.success){
+            // Sorting the fetched users in desc based on version number
+            const sortedUsersByVersionDesc = fetchedUsers.sort((a, b) => {
+                return b.version - a.version;
+            })
+            const limitedUsers = sortedUsersByVersionDesc.slice(0, limit);
+            return res.status(200).send(limitedUsers);
+        }
+        return res.status(500).send({
+            success: false,
+            message: response.message
+        })
+
     } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: 'Server error.',
+            error: err.message
+        })
+    }
+}
+
+// Retrieve all users whose names start with given keyword
+exports.getAllUsersByNameStartingWith = async (req, res) => {
+    try {
         
+        const { keyword } = req.params;
+        const response = fetchData();
+        const fetchedUsers = response.data;
+
+        // Filter users based on the query
+        if (response.success){
+            const filteredUsers = fetchedUsers.filter((user) => user.name.toLowerCase().startsWith(keyword.toLowerCase()));
+            res.status(200).send(filteredUsers);
+        }
+
+        return res.status(500).send({
+            success: false,
+            message: response.message
+        })
+
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: 'Server error.',
+            error: err.message
+        })
+    }
+}
+
+// Retrieve all users whose names start with given keyword
+exports.getAllUsersByNameStartingWithSortedByNameInOrder = async (req, res) => {
+    try {
+        
+        const { keyword, order } = req.params;
+        const response = fetchData();
+        const fetchedUsers = response.data;
+
+        // Filter users based on the query
+        if (response.success){
+            const filteredUsers = fetchedUsers.filter((user) => user.name.toLowerCase().startsWith(keyword.toLowerCase()));
+            res.status(200).send(filteredUsers);
+        }
+
+        return res.status(500).send({
+            success: false,
+            message: response.message
+        })
+        
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: 'Server error.',
+            error: err.message
+        })
     }
 }

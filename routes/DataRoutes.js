@@ -33,5 +33,10 @@ router.get('/version/range/:min/:max/sort/:order', DataControllers.getAllUsersBy
 // Retrieve all latest users with the highest version number
 router.get('/latest/:limit', DataControllers.getLatestUsersByVersion);
 
+// Retrieve users whose name start with a specific keyword (name initial)
+router.get('/name/initial/:initial', DataControllers.getAllUsersByNameStartingWith);
+
+// Retrieve users whose name start with a specific keyword (name initial) and sort by name in order
+router.get('/name/initial/:initial/sort/:order', DataControllers.getAllUsersByNameStartingWithSortedByNameInOrder);
 
 module.exports = router;
