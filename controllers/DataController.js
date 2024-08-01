@@ -107,4 +107,34 @@ exports.fetchUsersByLanguage = (req, res) => {
     }
 }
 
-// Sort 
+// Sort users by name in asc or desc
+exports.sortUsersByName = (req, res) => {
+    try {
+        
+        const { order } = req.params;
+        const response = fetchData();
+        const fetchedUsers = response.data;
+
+        // Sort users by name in order
+        if (response.success){
+            const sortedUsers = fetchedUsers.sort((a, b) => {
+                if (order.toLowerCase() === 'asc'){
+                    return a.name.localeCompare(b.name);
+                }
+                else if (order.toLowerCase() === 'desc') return b.name.localeCompare(a.name);
+            })
+            return res.status(200).send(sortedUsers);
+        }
+        return res.status(500).send({
+            success: false,
+            message: response.message
+        })
+
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: 'Server error.',
+            error: err.message
+        })
+    }
+}
